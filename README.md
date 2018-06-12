@@ -19,14 +19,14 @@ An attention layer between the encoder and decoder over the source sequence's hi
 ![BiEnDeLSTM + Attention mechanism](https://github.com/DeepsMoseli/Bidirectiona-LSTM-for-text-summarization-/blob/master/BiEnDeLstmAttention.jpg)
 
 ## 4) Training
-- *batch_size = 50
-- *num_classes = 1
-- *epochs = 20
-- *hidden_units = 128
-- *learning_rate = 0.005
-- *clip_norm = 2.0
-- *test_size = 0.2
-- *optimizer = RMsprop
+- batch_size = 50
+- num_classes = 1
+- epochs = 20
+- hidden_units = 128
+- learning_rate = 0.005
+- clip_norm = 2.0
+- test_size = 0.2
+- optimizer = RMsprop
 
 ## 5) Results
 
