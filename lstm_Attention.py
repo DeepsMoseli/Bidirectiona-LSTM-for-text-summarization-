@@ -19,7 +19,7 @@ from keras import initializers
 from keras.optimizers import RMSprop
 from keras.models import Model
 from keras.layers import Dense,LSTM,Input,Activation,Add,TimeDistributed,\
-Permute,Flatten,RepeatVector,merge,Lambda,Multiply
+Permute,Flatten,RepeatVector,merge,Lambda,Multiply,Reshape
 from keras.callbacks import ModelCheckpoint
 from keras.models import load_model
 
@@ -48,20 +48,16 @@ def encoder_decoder(data):
     """__encoder___"""
     encoder_inputs = Input(shape=en_shape)
     
-    
     encoder_LSTM = LSTM(hidden_units,dropout_U=0.2,dropout_W=0.2,return_sequences=True,return_state=True)
     encoder_LSTM_rev=LSTM(hidden_units,return_state=True,return_sequences=True,dropout_U=0.05,dropout_W=0.05,go_backwards=True)
     
-  
     encoder_outputs, state_h, state_c = encoder_LSTM(encoder_inputs)
     encoder_outputsR, state_hR, state_cR = encoder_LSTM_rev(encoder_inputs)
     
     state_hfinal=Add()([state_h,state_hR])
     state_cfinal=Add()([state_c,state_cR])
-    
     encoder_outputs_final = Add()([encoder_outputs,encoder_outputsR])
-    attention = TimeDistributed(Dense(1, activation = 'tanh'))(encoder_outputs_final)
-
+    
     encoder_states = [state_hfinal,state_cfinal]
     
     """____decoder___"""
@@ -70,15 +66,12 @@ def encoder_decoder(data):
     decoder_outputs, _, _ = decoder_LSTM(decoder_inputs,initial_state=encoder_states)
     
     #Pull out XGBoost, (I mean attention)
+    attention = TimeDistributed(Dense(1, activation = 'tanh'))(encoder_outputs_final)
     attention = Flatten()(attention)
     attention = Multiply()([decoder_outputs, attention])
     attention = Activation('softmax')(attention)
-    attention = RepeatVector(hidden_units)(attention)
     attention = Permute([2, 1])(attention)
-    sent_representation = Multiply()([decoder_outputs, attention])
-    decoder_outputs = Lambda(lambda xin: k.sum(xin, axis=1),output_shape=(hidden_units,))(sent_representation)
-    
-    
+ 
     decoder_dense = Dense(de_shape[1],activation='softmax')
     decoder_outputs = decoder_dense(decoder_outputs)
     
@@ -99,8 +92,8 @@ def encoder_decoder(data):
     """_________________inference mode__________________"""
     encoder_model_inf = Model(encoder_inputs,encoder_states)
     
-    decoder_state_input_H = Input(shape=(hidden_units,))
-    decoder_state_input_C = Input(shape=(hidden_units,)) 
+    decoder_state_input_H = Input(shape=(en_shape[0],))
+    decoder_state_input_C = Input(shape=(en_shape[0],)) 
     decoder_state_inputs = [decoder_state_input_H, decoder_state_input_C]
     decoder_outputs, decoder_state_h, decoder_state_c = decoder_LSTM(decoder_inputs,
                                                                      initial_state=decoder_state_inputs)
