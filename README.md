@@ -20,9 +20,9 @@ An attention layer between the encoder and decoder over the source sequence's hi
 
 ## 4) Training
 **Download the data and run the following scripts in this order:**
-1. <python cnn_daily_load.py>
-2. <python word2vec.py>
-3. <python lstm_Attention.py>
+1. ```python cnn_daily_load.py```
+2. ```python word2vec.py```
+3. ```python lstm_Attention.py```
   
 **dependencies**
 - tensorflow, keras,sklearn
