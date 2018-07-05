@@ -10,8 +10,8 @@ Word2vec algorithm [skipgram](https://papers.nips.cc/paper/5021-distributed-repr
 For the decoder input and output, one hot encoding of the summary words was used. vocabulary size was initialy 50k but reduced to 30k due to memory constraints. one hot encoding was also to allow addition of attention layer later. 
 
 ## 2) Encoder - decoder LSTM
-We use a unidirectional encoder lstm  with state size = 128, dropout=0.2 and a tanh activation.
-The Decoder is a bidirectional lstm with size = 128, droput = 0.2 and a softmax ativation.
+We use a bidirectional encoder lstm  with state size = 128, dropout=0.2 and a tanh activation.
+The Decoder is a unidirectional lstm with size = 128, droput = 0.2 and a softmax ativation.
 ![BiEnDeLSTM Network](https://github.com/DeepsMoseli/Bidirectiona-LSTM-for-text-summarization-/blob/master/BiEnDeLstm_preview.jpeg)
 
 ## 3) Attention Layer
