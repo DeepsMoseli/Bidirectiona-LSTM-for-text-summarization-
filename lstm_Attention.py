@@ -73,7 +73,7 @@ def encoder_decoder(data):
     attention = Permute([2, 1])(attention)
  
     decoder_dense = Dense(de_shape[1],activation='softmax')
-    decoder_outputs = decoder_dense(decoder_outputs)
+    decoder_outputs = decoder_dense(attention)
     
     model= Model(inputs=[encoder_inputs,decoder_inputs], outputs=decoder_outputs)
     print(model.summary())
