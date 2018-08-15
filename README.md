@@ -1,7 +1,10 @@
 # Bidirectiona-LSTM-for-text-summarization-
 A bidirectional encoder-decoder LSTM neural network is trained for text summarization on the cnn/dailymail dataset.
 
-The unprocessed dataset can be downloaded [here](https://cs.nyu.edu/~kcho/DMQA/)
+
+-The unprocessed dataset can be downloaded [here](https://cs.nyu.edu/~kcho/DMQA/)
+
+-The version (only cnn articles and summaries) used in this project can be found [here](https://drive.google.com/open?id=1VFKeAZZutQoFi-ARBJ8R0xXJUIdb23Ig)
 
 ## 1) Word embeddings
 Word2vec algorithm [skipgram](https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf) is used for the encoder input sequence. This is achieved by training a shallow neural network to ro predict context words given a current word. after training the hidden layer is used as the embedding layer. embedding size was kept at 128. skipgram was pre-trained on both the articles and golden summary words.
